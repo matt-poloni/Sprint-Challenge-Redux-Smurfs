@@ -43,11 +43,6 @@ class App extends Component {
     })
   }
 
-  deleteTodo = (e, id) => {
-    e.preventDefault();
-    this.props.deleteTodo(id);
-  }
-
   deleteSmurf = (e, id) => {
     e.preventDefault();
     this.props.deleteSmurf(id);
@@ -163,6 +158,8 @@ const mapStateToProps = state => ({
   smurfs: state.smurfs,
   fetchingSmurfs: state.fetchingSmurfs,
   addingSmurf: state.addingSmurf,
+  updatingSmurf: state.updatingSmurf,
+  deletingSmurf: state.deletingSmurf,
 })
 
 export default connect(

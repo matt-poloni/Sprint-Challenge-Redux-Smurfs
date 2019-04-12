@@ -31,7 +31,7 @@ const initialState = {
   smurfs: [],
   fetchingSmurfs: true,
   addingSmurf: false,
-  // updatingSmurf: false,
+  updatingSmurf: false,
   deletingSmurf: false,
   error: null
 }
