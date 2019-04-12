@@ -10,6 +10,9 @@ export const FETCH_SMURFS_FAILURE = 'FETCH_SMURFS_FAILURE';
 export const ADD_SMURF_START = 'ADD_SMURF_START';
 export const ADD_SMURF_SUCCESS = 'ADD_SMURF_SUCCESS';
 export const ADD_SMURF_FAILURE = 'ADD_SMURF_FAILURE';
+export const DELETE_SMURF_START = 'DELETE_SMURF_START';
+export const DELETE_SMURF_SUCCESS = 'DELETE_SMURF_SUCCESS';
+export const DELETE_SMURF_FAILURE = 'DELETE_SMURF_FAILURE';
 
 /*
   For this project you'll need at least 2 action creators for the main portion,
@@ -43,7 +46,6 @@ export const addSmurf = smurf => dispatch => {
   dispatch({ type: ADD_SMURF_START });
   return axios.post('http://localhost:3333/smurfs', smurf)
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: ADD_SMURF_SUCCESS,
         payload: res.data
@@ -56,4 +58,22 @@ export const addSmurf = smurf => dispatch => {
         payload: err.response
       })
     });
+}
+
+export const deleteSmurf = id => dispatch => {
+  dispatch({ type: DELETE_SMURF_START });
+  return axios.delete(`http://localhost:3333/smurfs/${id}`)
+    .then(res => {
+      dispatch({
+        type: DELETE_SMURF_SUCCESS,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      console.log(err.response);
+      dispatch({
+        type: DELETE_SMURF_FAILURE,
+        payload: err.response
+      })
+    })
 }

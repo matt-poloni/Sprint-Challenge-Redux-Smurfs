@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { getSmurfs, addSmurf } from '../actions';
+import { getSmurfs, addSmurf, deleteSmurf } from '../actions';
 
 /*
  to wire this component up you're going to need a few things.
@@ -13,7 +13,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newSmurf: {
+      smurf: {
+        id: null,
         name: '',
         age: '',
         height: '',
@@ -25,24 +26,56 @@ class App extends Component {
     this.props.getSmurfs();
   }
 
+  selectSmurf = smurf => {
+    this.setState({
+      smurf: smurf,
+    })
+  }
+
+  deleteTodo = (e, id) => {
+    e.preventDefault();
+    this.props.deleteTodo(id);
+  }
+
+  deleteSmurf = (e, id) => {
+    e.preventDefault();
+    this.props.deleteSmurf(id);
+  }
+
   handleChanges = e => {
     this.setState({
-      newSmurf: {
-        ...this.state.newSmurf,
+      smurf: {
+        ...this.state.smurf,
         [e.target.name]: e.target.value,
       }
     });
   };
 
+  addSmurf = smurf => {
+    this.props.addSmurf({
+      name: smurf.name,
+      age: smurf.age,
+      height: smurf.height,
+    });
+  }
+
+  updateSmurf = smurf => {
+    this.props.updateSmurf({smurf});
+  }
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.addSmurf(this.state.newSmurf);
+    this.state.smurf.id === null
+      ? this.addSmurf(this.state.smurf)
+      : this.updateSmurf(this.state.smurf);
     this.setState({
-      newSmurf: {
+      smurf: {
+        id: null,
         name: '',
         age: '',
         height: '',
-      }
+      },
+      selectedSmurf: null,
     })
   }
 
@@ -59,19 +92,32 @@ class App extends Component {
           ? <p>Loading smurfs...</p>
           : <ul>
             {this.props.smurfs.map(smurf => {
-              return <li key={smurf.id}>
-                  {`${smurf.name}: ${smurf.age} years old, ${smurf.height} tall`}
+              return (
+                <li key={smurf.id}>
+                  <span onClick={() => this.selectSmurf(smurf)}>
+                    {`${smurf.name}: ${smurf.age} years old, ${smurf.height} tall`}
+                  </span>
+                  <button onClick={e => this.deleteSmurf(e, smurf.id)}>
+                    Delete
+                  </button>
                 </li>
+              )
             })}
             </ul>
         }
-        <h2>Add a Smurf</h2>
+        <h2>
+          {
+            this.state.smurf.id === null
+              ? 'Add a Smurf'
+              : `Update ${this.state.smurf.name}`
+          }
+        </h2>
         <form onSubmit={this.handleSubmit}>
           <input
             type='text'
             placeholder='Name'
             name='name'
-            value={this.state.newSmurf.name}
+            value={this.state.smurf.name}
             onChange={this.handleChanges}
           />
           <input
@@ -79,17 +125,19 @@ class App extends Component {
             min='0'
             placeholder='Age'
             name='age'
-            value={this.state.newSmurf.age}
+            value={this.state.smurf.age}
             onChange={this.handleChanges}
           />
           <input
             type='text'
             placeholder='Height'
             name='height'
-            value={this.state.newSmurf.height}
+            value={this.state.smurf.height}
             onChange={this.handleChanges}
           />
-          <button type='submit'>Add</button>
+          <button type='submit'>
+            {this.state.smurf.id === null ? 'Add' : `Update`}
+          </button>
         </form>
       </div>
     );
@@ -104,5 +152,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSmurfs, addSmurf }
+  { getSmurfs, addSmurf, deleteSmurf }
 )(App);

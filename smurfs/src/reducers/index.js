@@ -8,6 +8,9 @@ import {
   ADD_SMURF_START,
   ADD_SMURF_SUCCESS,
   ADD_SMURF_FAILURE,
+  DELETE_SMURF_START,
+  DELETE_SMURF_SUCCESS,
+  DELETE_SMURF_FAILURE,
 } from '../actions';
 
 /*
@@ -26,7 +29,7 @@ const initialState = {
   fetchingSmurfs: true,
   addingSmurf: false,
   // updatingSmurf: false,
-  // deletingSmurf: false,
+  deletingSmurf: false,
   error: null
 }
 
@@ -77,6 +80,25 @@ export default (state = initialState, action) => {
         error: action.payload,
         addingSmurf: false,
       }
+      case DELETE_SMURF_START:
+        return {
+          ...state,
+          error: '',
+          deletingSmurf: true,
+        }
+      case DELETE_SMURF_SUCCESS:
+        return {
+          ...state,
+          error: '',
+          deletingSmurf: false,
+          smurfs: action.payload,
+        }
+      case DELETE_SMURF_FAILURE:
+        return {
+          ...state,
+          error: action.payload,
+          deletingSmurf: false,
+        }
     default:
       return state;
   }
