@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { getSmurfs } from '../actions';
+import { getSmurfs, addSmurf } from '../actions';
 
 /*
  to wire this component up you're going to need a few things.
@@ -10,9 +10,42 @@ import { getSmurfs } from '../actions';
  `How do I ensure that my component links the state to props?`
  */
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      newSmurf: {
+        name: '',
+        age: '',
+        height: '',
+      }
+    }
+  }
+
   componentDidMount() {
     this.props.getSmurfs();
   }
+
+  handleChanges = e => {
+    this.setState({
+      newSmurf: {
+        ...this.state.newSmurf,
+        [e.target.name]: e.target.value,
+      }
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.addSmurf(this.state.newSmurf);
+    this.setState({
+      newSmurf: {
+        name: '',
+        age: '',
+        height: '',
+      }
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -32,6 +65,32 @@ class App extends Component {
             })}
             </ul>
         }
+        <h2>Add a Smurf</h2>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type='text'
+            placeholder='Name'
+            name='name'
+            value={this.state.newSmurf.name}
+            onChange={this.handleChanges}
+          />
+          <input
+            type='number'
+            min='0'
+            placeholder='Age'
+            name='age'
+            value={this.state.newSmurf.age}
+            onChange={this.handleChanges}
+          />
+          <input
+            type='text'
+            placeholder='Height'
+            name='height'
+            value={this.state.newSmurf.height}
+            onChange={this.handleChanges}
+          />
+          <button type='submit'>Add</button>
+        </form>
       </div>
     );
   }
@@ -45,5 +104,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSmurfs }
+  { getSmurfs, addSmurf }
 )(App);

@@ -38,3 +38,22 @@ export const getSmurfs = () => dispatch => {
       })
     });
 }
+
+export const addSmurf = smurf => dispatch => {
+  dispatch({ type: ADD_SMURF_START });
+  return axios.post('http://localhost:3333/smurfs', smurf)
+    .then(res => {
+      console.log(res.data);
+      dispatch({
+        type: ADD_SMURF_SUCCESS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err.response);
+      dispatch({
+        type: ADD_SMURF_FAILURE,
+        payload: err.response
+      })
+    });
+}
