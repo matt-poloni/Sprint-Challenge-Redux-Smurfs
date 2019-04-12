@@ -22,16 +22,28 @@ In this challenge, you are to build the Smurfs village once again, only this tim
 
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
-- [ ] In your own words, describe `actions`, `reducers` and the `store` and their role in Redux. What does each piece do? Why is the store known as a 'single source of truth' in a redux application?
-- [ ] What is the difference between Application state and Component state? When would be a good time to use one over the other?
-- [ ] Describe `redux-thunk`, what does it allow us to do? How does it change our `action-creators`?
+- [x] In your own words, describe `actions`, `reducers` and the `store` and their role in Redux. What does each piece do? Why is the store known as a 'single source of truth' in a redux application?
+
+* The Redux **store** is where application state is held within an application. It's called the 'single source of truth' because it is a singular location from which any component in the application can reliably retrieve the same state that any other component would be referencing (which helps reduce side effects).
+
+* **Actions** merely describe events within an application by their type (such as FETCH_DATA_START, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE) and the data that will need to be changed in the store. **Reducers** then take in the actions dispatched to them and replace the store's current state with an updated state based upon the data delivered from the action it's handling.
+
+- [x] What is the difference between Application state and Component state? When would be a good time to use one over the other?
+
+* **Application state** is the immutable store that manages the data needed all across the application. Use it for any data that could be needed across components that aren't closely related.
+
+* **Component state** is the collection of data needed only within each particular instance of a component (e.g. forms that use state to handle changes and deliver its state as payload to an action creator). Use it for data that is only needed within one component that can easily hand it down as props where necessary.
+
+- [x] Describe `redux-thunk`, what does it allow us to do? How does it change our `action-creators`?
+
+* Redux Thunk is a middleware that allows us to handle asynchronous operations within our application. Action creators then become slightly more dynamic than the simple forwarding service they appear to be otherwise. They will typically send out one action to signal the start of the async operation, run that operation, and then either dispatch a SUCCESS action with the desired payload or a FAILURE action with the error returned.
 
 ## Project Set Up
 
 Follow these steps to set up your project:
 
-- [ ] `fork & clone` this repository.
-- [ ] `cd` into the forked copy of this repository.
+- [x] `fork & clone` this repository.
+- [x] `cd` into the forked copy of this repository.
 - [ ] **RUN** `yarn` to retrieve all `server-side` the dependencies.
 - [ ] **RUN** `yarn start` or `npm start` to get your API up and running on `http://localhost:3333`. This is the **URL** you're going to need to use within your React app in order to make AJAX requests for data.
 - [ ] After your API is up and running, you can open chrome and type in `http://localhost:3333/smurfs`. You should see an empty Array `[]` returned to you. This is an array that your **API** will be using to store our Smurf Data.
