@@ -26,7 +26,9 @@ class App extends Component {
           ? <p>Loading smurfs...</p>
           : <ul>
             {this.props.smurfs.map(smurf => {
-              return <li>{`${smurf.name}: ${smurf.age} years old, ${smurf.height} tall`}</li>
+              return <li key={smurf.id}>
+                  {`${smurf.name}: ${smurf.age} years old, ${smurf.height} tall`}
+                </li>
             })}
             </ul>
         }
