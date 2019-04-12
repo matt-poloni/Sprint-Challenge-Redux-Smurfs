@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { getSmurfs, addSmurf, deleteSmurf } from '../actions';
+import { getSmurfs, addSmurf, updateSmurf, deleteSmurf } from '../actions';
 
 /*
  to wire this component up you're going to need a few things.
@@ -60,7 +60,7 @@ class App extends Component {
   }
 
   updateSmurf = smurf => {
-    this.props.updateSmurf({smurf});
+    this.props.updateSmurf(smurf);
   }
 
   handleSubmit = e => {
@@ -152,5 +152,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSmurfs, addSmurf, deleteSmurf }
+  { getSmurfs, addSmurf, updateSmurf, deleteSmurf }
 )(App);
