@@ -32,6 +32,17 @@ class App extends Component {
     })
   }
 
+  deselectSmurf = () => {
+    this.setState({
+      smurf: {
+        id: null,
+        name: '',
+        age: '',
+        height: '',
+      }
+    })
+  }
+
   deleteTodo = (e, id) => {
     e.preventDefault();
     this.props.deleteTodo(id);
@@ -86,7 +97,11 @@ class App extends Component {
         <div>Welcome to your Redux version of Smurfs!</div>
         <div>Start inside of your `src/index.js` file!</div>
         <div>Have fun!</div>
-        <h2>Smurf Village Residents</h2>
+        <h2
+          onClick={this.deselectSmurf}
+        >
+          Smurf Village Residents
+        </h2>
         {
           this.props.fetchingSmurfs
           ? <p>Loading smurfs...</p>
